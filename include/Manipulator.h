@@ -16,20 +16,20 @@ namespace planarMainpulator {
             ~Manipulator();
 
             void addJoint(shared_ptr<Joint> joint);
-            void removeJoint(shared_ptr<Joint> joint);
+            void removeLastJointAndLink();
 
             void addLink(shared_ptr<Link> link);
-            void removeLink(shared_ptr<Link> link);
 
             // Getters
             int getEndEffectorLinkIndex() const { return endEffectorLinkIndex_; };
-            int getNumJoints() const { return numJoints_; };
-            int getNumLinks() const { return numLinks_; };
+            size_t getNumJoints() const { return joints_.size(); };
+            size_t getNumLinks() const { return links_.size(); };
 
         private:
             vector<shared_ptr<Joint>> joints_;
             vector<shared_ptr<Link>> links_;
             int endEffectorLinkIndex_;
+            //TODO: Consider removing these two variables
             int numJoints_;
             int numLinks_;
     }; // class Manipulator
