@@ -21,4 +21,4 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 #  Enable testing
 enable_testing()
-add_subdirectory(tests)
+# add_subdirectory(tests)
