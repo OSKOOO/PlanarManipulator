@@ -21,4 +21,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 #  Enable testing
 enable_testing()
-# add_subdirectory(tests)
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+add_executable(manipulator_tests tests/ManipulatorTest.cpp src/Manipulator.cpp src/Joint.cpp)
+target_link_libraries(manipulator_tests GTest::gtest GTest::gtest_main)
