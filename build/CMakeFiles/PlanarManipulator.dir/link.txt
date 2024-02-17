@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/PlanarManipulator.dir/src/Joint.cpp.o CMakeFiles/PlanarManipulator.dir/src/Manipulator.cpp.o CMakeFiles/PlanarManipulator.dir/src/main.cpp.o -o PlanarManipulator 
