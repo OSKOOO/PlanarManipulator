@@ -8,6 +8,7 @@ namespace planarMainpulator
 
     Eigen::VectorXd InverseKinematics::computeAnalyticalIK(const Eigen::Vector3d& x_desired, Manipulator& manipulator){
        
+        // TODO: check if desired ee point is inside the workspace
         // Analytical solution is computed using the geometric method by hand [R1]  
         if (manipulator.getNumJoints() == 3) {
             // End-effector position
