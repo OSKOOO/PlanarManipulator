@@ -13,6 +13,8 @@ class ManipulatorTest : public ::testing::Test {
 };
 
 TEST_F(ManipulatorTest, addJointTest) {
+
+    // Simple test to add joints
     auto joint1 = std::make_shared<Joint>(Joint::Type::REVOLUTE, 0.0, -M_PI, M_PI);
     auto joint2 = std::make_shared<Joint>(Joint::Type::PRISMATIC, 0.0, 0.0, 1.0);
     auto joint3 = std::make_shared<Joint>(Joint::Type::CONTINUOUS, 0.0);
@@ -23,6 +25,8 @@ TEST_F(ManipulatorTest, addJointTest) {
 }
 
 TEST_F(ManipulatorTest, addLinkTest) {
+
+    // Simple test to add links
     auto link1 = std::make_shared<Link>(1.0);
     auto link2 = std::make_shared<Link>(1.0);
     auto link3 = std::make_shared<Link>(1.0);
@@ -33,6 +37,8 @@ TEST_F(ManipulatorTest, addLinkTest) {
 }
 
 TEST_F(ManipulatorTest, removeLastJointAndLinkTest) {
+
+    // Simple test to remove the last joint and link
     auto joint1 = std::make_shared<Joint>(Joint::Type::REVOLUTE, 0.0, -M_PI, M_PI);
     auto joint2 = std::make_shared<Joint>(Joint::Type::PRISMATIC, 0.0, 0.0, 1.0);
     auto joint3 = std::make_shared<Joint>(Joint::Type::CONTINUOUS, 0.0);
@@ -52,4 +58,10 @@ TEST_F(ManipulatorTest, removeLastJointAndLinkTest) {
     manipulator->removeLastJointAndLink();
     EXPECT_EQ(manipulator->getNumJoints(), 0);
     EXPECT_EQ(manipulator->getNumLinks(), 0);
+}
+
+TEST_F(ManipulatorTest, getEndEffectorPositionTest ) {
+    Manipulator manipulator;
+
+    // Set up an inverted C shape kinematic chain; easy to visualize
 }
