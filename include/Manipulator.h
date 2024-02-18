@@ -3,6 +3,7 @@
 
 #include "Joint.h"
 #include "Link.h"
+#include "Transformation.h"
 #include <vector>
 #include <memory>
 
@@ -24,6 +25,20 @@ namespace planarMainpulator {
             int getEndEffectorLinkIndex() const { return endEffectorLinkIndex_; };
             size_t getNumJoints() const { return joints_.size(); };
             size_t getNumLinks() const { return links_.size(); };
+            double getJointPosition(int jointIndex) const { return joints_[jointIndex]->getPosition(); };
+            double getLinkLength(int linkIndex) const { return links_[linkIndex]->length; };
+            shared_ptr<Joint> getJoint(int jointIndex) const { return joints_[jointIndex]; };
+            shared_ptr<Link> getLink(int linkIndex) const { return links_[linkIndex]; };            
+
+            // Computes the end effector position based on the forward kinematics of the robot
+            Eigen::VectorXd getEndEffectorPosition() const;
+            
+            // Setters
+            void setJointPosition(int jointIndex, double position) { joints_[jointIndex]->setPosition(position); };
+            void setLinkLength(int linkIndex, double length) { links_[linkIndex]->length = length; };
+
+            // Display
+            void displayEndEffectorPosition() const;
 
         private:
             vector<shared_ptr<Joint>> joints_;
