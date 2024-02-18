@@ -32,6 +32,7 @@ namespace planarMainpulator {
 
             // Computes the end effector position based on the forward kinematics of the robot
             Eigen::VectorXd getEndEffectorPosition() const;
+            bool isInsideCircle (const Eigen::VectorXd& center, double radius) const;
             
             // Setters
             void setJointPosition(int jointIndex, double position) { joints_[jointIndex]->setPosition(position); };
@@ -50,3 +51,4 @@ namespace planarMainpulator {
     }; // class Manipulator
 };
 #endif // MANIPULATOR_H
+

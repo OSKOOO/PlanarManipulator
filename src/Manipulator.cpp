@@ -79,4 +79,15 @@ namespace planarMainpulator {
         std::cout << "End effector position (x, y, theta_p) = \n" << endEffectorPosition << std::endl;
     }
 
+    /***************************************************************************************************/
+    /***************************************************************************************************/
+
+    bool Manipulator::isInsideCircle(const Eigen::VectorXd& circleCenter, double radius) const {
+        // norm() returns euclidean norm
+        return (getEndEffectorPosition().segment(0,2) - circleCenter).norm() < radius;
+    }
+
+    /***************************************************************************************************/
+    /***************************************************************************************************/    
+
 } // namespace planarMainpulator
