@@ -6,6 +6,9 @@ namespace planarMainpulator
     InverseKinematics::InverseKinematics() {}
     InverseKinematics::~InverseKinematics() {}
 
+    /***************************************************************************************************/
+    /***************************************************************************************************/    
+
     Eigen::VectorXd InverseKinematics::computeAnalyticalIK(const Eigen::Vector3d& x_desired, Manipulator& manipulator){
        
         // TODO: check if desired ee point is inside the workspace
@@ -45,6 +48,86 @@ namespace planarMainpulator
         
         return Eigen::VectorXd::Zero(3);
     }
+   
+    /***************************************************************************************************/
+    /***************************************************************************************************/    
+   
+    Eigen::VectorXd InverseKinematics::computeNumericalIK(const Eigen::Vector3d& x_desired, const Eigen::VectorXd& initialGuess, Manipulator& manipulator){
+        // Numerical solution is computed using Newton-Raphson iterative algorithm [R1] [Page 196]
+
+        // Initial guess for the joint angles
+        Eigen::VectorXd Qi = initialGuess;
+
+        for (int i = 0; i < 1000; i++) {
+            Eigen::Vector3d x_current = manipulator.getEndEffectorPosition();
+            Eigen::Vector3d error = x_desired - x_current;
+        
+        if (error.norm() < 1e-5) {
+            break; // Solution found
+            }
+
+        //Compute the Jacobian
+        Eigen::MatrixXd J = computeJacobian(Qi, manipulator);
+        Eigen::MatrixXd J_pseudo_inverse = J.completeOrthogonalDecomposition().pseudoInverse();
+        Eigen::VectorXd delta_Q = J_pseudo_inverse * error;
+
+        // Update the joint angles
+        Qi += delta_Q;
+
+        // Update the manipulator configuration
+        for (int i = 0; i < Qi.size(); ++i) {
+            manipulator.setJointPosition(i, Qi(i));
+            }
+        if (i == 1000 - 1) {
+            std::cerr << "ERROR: IK solver max iteration performed" << std::endl;
+            }
+
+        }
+
+    return Qi;
+    }
+
+    /***************************************************************************************************/
+    /***************************************************************************************************/   
+
+    Eigen::MatrixXd InverseKinematics::computeJacobian(const Eigen::VectorXd& q, Manipulator& manipulator){
+        // Compute the Jacobian matrix
+        // Jacobian matrix is computed using the geometric method [R2] [Page 127]  
+        if (q.size() == 3) {
+        //Spong implmention
+        Eigen::Vector3d L; // Link lengths
+        L << manipulator.getLinkLength(0), manipulator.getLinkLength(1), manipulator.getLinkLength(2);
+        
+        Eigen::MatrixXd J(3, 3);
+        Eigen::MatrixXd T_0 = Transformation::transformationMatrix(q(0),0,0);
+        Eigen::MatrixXd T_1 = Transformation::transformationMatrix(q(1), L(0), 0);
+        Eigen::MatrixXd T_2 = Transformation::transformationMatrix(q(2), L(1), 0);
+        Eigen::MatrixXd T_3 = Transformation::transformationMatrix(0.0,  L(2), 0);
+
+        Eigen::Vector3d O_0 = T_0.block(0,2,3,1);
+        Eigen::Vector3d O_1 = (T_0 * T_1).block(0,2,3,1);
+        Eigen::Vector3d O_2 = (T_0 * T_1 * T_2).block(0,2,3,1);
+        Eigen::Vector3d O_3 = (T_0 * T_1 * T_2 * T_3).block(0,2,3,1);        
+        
+        
+        Eigen::Vector3d z;
+        z << 0, 0, 1; //Rotation axis
+        J.col(0) = z.cross(O_3 - O_0);
+        J.col(1) = z.cross(O_3 - O_1);
+        J.col(2) = z.cross(O_3 - O_2);
+        J.row(2) << 1, 1, 1; //Account for the orientation of the end effector
+        
+        return J;
+
+        }
+        else {
+            std::cerr << "Jacobian computation is not implemented for the given manipulator" << std::endl;
+        }
+        return Eigen::MatrixXd::Zero(3, 3);
+    }
+
+    /***************************************************************************************************/
+    /***************************************************************************************************/             
 
 
 } // namespace manipulator

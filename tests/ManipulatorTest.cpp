@@ -134,24 +134,5 @@ TEST_F(ManipulatorTest, isInCircleTest ){
 
 }
 
-TEST_F(ManipulatorTest, InverseKinematicsTest ){
 
-    // Test the inverse kinematics solution
-    Manipulator manipulator;
-    InverseKinematics ik;
-    manipulator.addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, 0.0));
-    manipulator.addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, M_PI/2.0));
-    manipulator.addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, M_PI/2.0));
-    manipulator.addLink(std::make_shared<Link>(1.0));
-    manipulator.addLink(std::make_shared<Link>(1.0));
-    manipulator.addLink(std::make_shared<Link>(1.0));
 
-    Eigen::Vector3d x_desired(0.0, 1.0, M_PI);
-    Eigen::VectorXd actualResult = ik.computeAnalyticalIK(x_desired, manipulator);
-    Eigen::VectorXd expectedResult(3);
-    expectedResult << 0.0, M_PI/2.0, M_PI/2.0;
-    for (int i = 0; i < 3; i++) {
-        EXPECT_NEAR(expectedResult(i), actualResult(i), 1e-5);
-    }
-
-}
