@@ -23,8 +23,15 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
+
+# Add tests
 add_executable(manipulator_tests  tests/ManipulatorTest.cpp src/Manipulator.cpp src/Joint.cpp src/InverseKinematics.cpp)
 add_executable(ik_tests  tests/InverseKinematicsTest.cpp src/Manipulator.cpp src/Joint.cpp src/InverseKinematics.cpp)
+add_executable(fk_tests  tests/ForwardKinematicsTest.cpp src/Manipulator.cpp src/Joint.cpp src/InverseKinematics.cpp)
+add_executable(intersection_tests  tests/IntersectionTest.cpp src/Manipulator.cpp src/Joint.cpp src/InverseKinematics.cpp)
 
+# Link libraries
 target_link_libraries(manipulator_tests  GTest::gtest GTest::gtest_main)
 target_link_libraries(ik_tests GTest::gtest GTest::gtest_main)
+target_link_libraries(fk_tests GTest::gtest GTest::gtest_main)
+target_link_libraries(intersection_tests GTest::gtest GTest::gtest_main)

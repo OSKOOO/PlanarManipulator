@@ -5,7 +5,13 @@
 
 class Transformation {
 public:
-    // 2D transformation matrix for computing forward kinematics
+    /**
+     * @brief 2D transformation matrix for computing forward kinematic
+     * @param theta Angle of rotation
+     * @param dx Translation in the x direction
+     * @param dy Translation in the y direction
+     * @return Eigen::Matrix3d 2D transformation matrix
+    */
     static Eigen::Matrix3d transformationMatrix(double theta, double dx, double dy) {
         Eigen::Matrix3d T;
         T << cos(theta), -sin(theta), dx,

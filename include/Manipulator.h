@@ -16,9 +16,21 @@ namespace planarMainpulator {
             Manipulator();
             ~Manipulator();
 
+            /**
+             * Add a joint to the manipulator
+             * @param joint Joint to be added
+             */
             void addJoint(shared_ptr<Joint> joint);
+
+            /**
+             * Remove the last joint and link from the manipulator
+             */
             void removeLastJointAndLink();
 
+            /**
+             * Add a link to the manipulator
+             * @param link Link to be added
+             */
             void addLink(shared_ptr<Link> link);
 
             // Getters
@@ -38,7 +50,7 @@ namespace planarMainpulator {
             void setJointPosition(int jointIndex, double position) { joints_[jointIndex]->setPosition(position); };
             void setLinkLength(int linkIndex, double length) { links_[linkIndex]->length = length; };
 
-            // Display
+            // Display end-effector position in the console
             void displayEndEffectorPosition() const;
 
         private:

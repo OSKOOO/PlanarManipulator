@@ -11,7 +11,6 @@ namespace planarMainpulator
 
     Eigen::VectorXd InverseKinematics::computeAnalyticalIK(const Eigen::Vector3d& x_desired, Manipulator& manipulator){
        
-        // TODO: check if desired ee point is inside the workspace
         // Analytical solution is computed using the geometric method by hand [R1]  
         if (manipulator.getNumJoints() == 3) {
             // End-effector position
@@ -31,9 +30,9 @@ namespace planarMainpulator
             // Compute th2
             double numerator = pow(P2x, 2) + pow(P2y, 2) - (pow(l1, 2) + pow(l2, 2));
             double denominator = 2 * l1 * l2;
-            if (abs(denominator) < 1e-6) {
-                throw std::runtime_error("IK: Division by zero or near zero in computing th2");
-            }
+            
+            if (abs(denominator) < 1e-6) {throw std::runtime_error("IK: Division by zero or near zero in computing th2");}
+            
             double cos_th2 = numerator / denominator;
 
             double th2 = acos(cos_th2);
@@ -44,7 +43,7 @@ namespace planarMainpulator
             result << th1, th2, th3;
             return result;            
 
-        }else{std::cerr << "Analytical solution is not implemented for the given manipulator" << std::endl;}
+        }else{throw std::runtime_error( "IK: Analytical solution is not implemented for the given manipulator" );}
         
         return Eigen::VectorXd::Zero(3);
     }
@@ -53,16 +52,16 @@ namespace planarMainpulator
     /***************************************************************************************************/    
    
     Eigen::VectorXd InverseKinematics::computeNumericalIK(const Eigen::Vector3d& x_desired, const Eigen::VectorXd& initialGuess, Manipulator& manipulator){
+        if (manipulator.getNumJoints() == 3) {
         // Numerical solution is computed using Newton-Raphson iterative algorithm [R1] [Page 196]
-
         // Initial guess for the joint angles
         Eigen::VectorXd Qi = initialGuess;
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < maxIterations_; i++) {
             Eigen::Vector3d x_current = manipulator.getEndEffectorPosition();
             Eigen::Vector3d error = x_desired - x_current;
         
-        if (error.norm() < 1e-5) {
+        if (error.norm() < tolerance_) {
             break; // Solution found
             }
 
@@ -78,13 +77,16 @@ namespace planarMainpulator
         for (int i = 0; i < Qi.size(); ++i) {
             manipulator.setJointPosition(i, Qi(i));
             }
-        if (i == 1000 - 1) {
+        if (i == maxIterations_ - 1) {
             std::cerr << "ERROR: IK solver max iteration performed" << std::endl;
             }
 
         }
 
     return Qi;
+    }else{
+        throw std::runtime_error( "IK: Numerical solution is not implemented for the given manipulator" );
+    }
     }
 
     /***************************************************************************************************/
@@ -121,7 +123,7 @@ namespace planarMainpulator
 
         }
         else {
-            std::cerr << "Jacobian computation is not implemented for the given manipulator" << std::endl;
+            throw std::runtime_error( "IK: Jacobian computation is not implemented for the given manipulator" );
         }
         return Eigen::MatrixXd::Zero(3, 3);
     }
@@ -130,4 +132,4 @@ namespace planarMainpulator
     /***************************************************************************************************/             
 
 
-} // namespace manipulator
+} // namespace planarMainpulator

@@ -1,4 +1,4 @@
-Project Build Instructions
+Project PlanarManipulator Build Instructions
 
 Target Platform: Linux (Ubuntu 20.04 LTS or newer)
 
@@ -7,19 +7,34 @@ Prerequisites:
     CMake version 3.10 or higher
     GNU Make or equivalent build tool
     A C++ compiler supporting C++17 (GCC 9 or higher recommended)
+    Eigen3
+    googletest
 
     Step 1: Installing Dependencies:
 
         sudo apt update
         sudo apt install build-essential cmake g++
         sudo apt install libeigen3-dev
+        git clone https://github.com/google/googletest.git -b v1.14.0
+        cd googletest
+        mkdir build 
+        cd build
+        cmake ..
+        sudo make install
 
     Step 2: Configuring the Build Environment
    
-        Open a terminal and navigate to the root directory of the project, where CMakeLists.txt is located.
+        Open a terminal and navigate to the root directory (PlanarManipulator) of the project, where CMakeLists.txt is located.
 
-    Step 3: Building the Project        
+    Step 3: Building the Project
    
         mkdir build && cd build
         cmake ..
         make
+
+    Step 4 (optional): Run test files
+
+        ./manipulator_tests 
+        ./fk_tests 
+        ./intersection_tests        
+        ./ik_tests
