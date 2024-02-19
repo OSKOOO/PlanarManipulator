@@ -132,4 +132,8 @@ namespace planarMainpulator
     /***************************************************************************************************/             
 
 
+<<<<<<< HEAD
 } // namespace planarMainpulator
+=======
+} // namespace planarMainpulator
+>>>>>>> 067624da934ff9a90c2f15f3c768824665fcf057
