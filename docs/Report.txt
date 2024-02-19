@@ -1,0 +1,17 @@
+The is a short report on the main design considerations of project PlanarManipulator
+
+    The project aims to serve as C++ kinematics library for planar manipulator (in this case a 3 link robot)
+    with an object-oreinted model of the robot. This library is degined for an ease of use and test case the
+    model, forward kinematics, workspace of end-effector, and inverse kinematics of the robot. In the design
+    process, the consideration was to build a library that can be easily extedned to higher degree-of-freedom 
+    planar manipulators and can also serve as a template for more complex models (e.g 3D manipoulators).
+
+Project outline:
+
+Main functionalities:
+
+Current limitations:
+
+Referneces: 
+
+Contact:
