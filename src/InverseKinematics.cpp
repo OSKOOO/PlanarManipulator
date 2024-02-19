@@ -130,4 +130,4 @@ namespace planarMainpulator
     /***************************************************************************************************/             
 
 
-} // namespace manipulator
+} // namespace planarMainpulator
