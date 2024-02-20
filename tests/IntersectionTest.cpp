@@ -16,13 +16,12 @@ class intersectionTest : public ::testing::Test {
 TEST_F(intersectionTest, isInCircleTest ){
 
     // Test if the end effector is in a circle
-    Manipulator manipulator;
-    manipulator.addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, 0.0));
-    manipulator.addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, M_PI/2.0));
-    manipulator.addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, M_PI/2.0));
-    manipulator.addLink(std::make_shared<Link>(1.0));
-    manipulator.addLink(std::make_shared<Link>(1.5));
-    manipulator.addLink(std::make_shared<Link>(1.0));
+    manipulator->addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, 0.0));
+    manipulator->addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, M_PI/2.0));
+    manipulator->addJoint(std::make_shared<Joint>(Joint::CONTINUOUS, M_PI/2.0));
+    manipulator->addLink(std::make_shared<Link>(1.0));
+    manipulator->addLink(std::make_shared<Link>(1.5));
+    manipulator->addLink(std::make_shared<Link>(1.0));
 
     // We know if the robot is in the shape of an inverted C, the end effector position should be (0, 1, pi)
     Eigen::VectorXd expectedPosition(3);
@@ -30,11 +29,11 @@ TEST_F(intersectionTest, isInCircleTest ){
 
     Eigen::Vector2d circleCenter(0, 0);
     double radius = 1.5;
-    bool actualResult = manipulator.isInsideCircle(circleCenter, radius);
+    bool actualResult = manipulator->isInsideCircle(circleCenter, radius);
     EXPECT_FALSE(actualResult);
 
     radius = 1.5001;
-    actualResult = manipulator.isInsideCircle(circleCenter, radius);
+    actualResult = manipulator->isInsideCircle(circleCenter, radius);
     EXPECT_TRUE(actualResult);
 
 }
