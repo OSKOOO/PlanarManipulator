@@ -42,8 +42,17 @@ namespace planarMainpulator {
             shared_ptr<Joint> getJoint(int jointIndex) const { return joints_[jointIndex]; };
             shared_ptr<Link> getLink(int linkIndex) const { return links_[linkIndex]; };            
 
-            // Computes the end effector position based on the forward kinematics of the robot
+            /**
+             * @return Eigen::VectorXd The end effector position
+             * @note Computes the end effector position based on the forward kinematics of the robot
+            */
             Eigen::VectorXd getEndEffectorPosition() const;
+
+            /**
+             * @param center The center of the circle
+             * @param radius The radius of the circle
+             * @return bool True if the end effector is inside the circle, false otherwise
+             */
             bool isInsideCircle (const Eigen::VectorXd& center, double radius) const;
             
             // Setters

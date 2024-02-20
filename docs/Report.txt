@@ -1,10 +1,10 @@
-The is a short report on the main design considerations of project PlanarManipulator
+This is a short report on the primary design considerations of project PlanarManipulator
 
-    The project aims to serve as C++ kinematics library for planar manipulator (in this case a 3 link robot)
-    with an object-oreinted model of the robot. This library is degined for an ease of use and test case the
+    The project aims to serve as a C++ kinematics library for the planar manipulator (in this case a 3 link robot)
+    with an object-oriented model of the robot. This library is designed for an ease of use and test case the
     model, forward kinematics, workspace of end-effector, and inverse kinematics of the robot. In the design
-    process, the consideration was to build a library that can be easily extedned to higher degree-of-freedom 
-    planar manipulators and can also serve as a template for more complex models (e.g 3D manipoulators).
+    process, the consideration was to build a library that could be easily extended to higher degree-of-freedom 
+    planar manipulators and can also serve as a template for more complex models (e.g. 3D manipulators).
 
 Project outline:
 
@@ -20,7 +20,7 @@ Project outline:
     |   |--Link.h                       - Declares link properties
     |   |--Joint.h                      - Declares joint types and properties
     |   |--Transformation.h             - Implements 2D transformation matrix used in kinematic calculations
-    |   |--Manipulator.h                - Declares robot object and it's mambers
+    |   |--Manipulator.h                - Declares robot object and its members
     |   |--InverseKinematics.h          - Declares inverse kinematics analytical and numeric solver
     |
     |--src/
@@ -37,29 +37,33 @@ Project outline:
 Main functionalities:
 
     PlanarManipulator namespace includes a suite of tools designed for planar robotics 
-    manipulator kinematic calculations. The class Manipulator serves as foundational 
-    building block foir constructing and interacting with the robot. Users can include
-    Manipulator.h to instaniate a robot object. To add links and joints users can use 
-    std::shared_ptr for both Joint and Link types, this is to ensure memeory is handled 
-    effeciently.
+    manipulator kinematic calculations. The class Manipulator serves as a foundational 
+    building block for constructing and interacting with the robot. Users can include
+    Manipulator.h to instantiate a robot object. To add links and joints, users can use 
+    std::shared_ptr for both Joint and Link types; this is to ensure memory is handled 
+    efficiently.
 
-    In addition, Manipulator class provides forward kinematics calculations using 
-    getEndEffectorPosition() which calculates the end-effector position based on 
-    cureent joint angles. This implmentation of forward kinematics is extendable to 
-    planar robots of higher degree-of-freedom. This extendablility is handled by effecient 
-    calculation of frames using Transformation.h [R2]. Manipulator also can calculate if a 
-    given circle encompass the end-effector using isInsideCircle().
+    In addition, the Manipulator class provides forward kinematics calculations using 
+    getEndEffectorPosition(), which calculates the end-effector position based on 
+    current joint angles. This implementation of forward kinematics is extendable to 
+    planar robots with a higher degree-of-freedom. This extendability is handled by efficient 
+    calculation of frames using Transformation.h [R2]. The Manipulator can also calculate if a 
+    given circle encompasses the end-effector using isInsideCircle().
 
-    Inverse kinematics solution is implmented using the geomeetric analytical appraoch and 
-    users can access is by creating a InverseKinematics object and calling computeAnalyticalIK().
+    The inverse kinematics solution is implemented using the geometric analytical approach, and 
+    users can access is by creating an InverseKinematics object and calling computeAnalyticalIK().
     A numerical solver is also implmented using the Newton-Raphson method from [R1]. The method 
     requires computation of the robot jacobian and is calculated from [R2]. 
 
-    Finally, test cases for each of these functionalities are implmeneted using Googletest. 
+    Finally, test cases for each of these functionalities are implemented using Googletest. 
 
 Current limitations:
 
-Referneces: 
+    Inverse kinematics are only supported for the 3-link planar manipulator arm. That is mainly 
+    due to analytical jacobian calculations. For the general case, the developer must consider 
+    constructing a jacobian based on the given robot object or using a numerical jacobian. 
+
+References: 
 
     - Modern Robotics by Kevin M. Lynch and Frank C. Park [R1]
     - Robot Modeling and Control by Mark W. Spong, Seth Hutchinson, and M. Vidyasagar [R2]
