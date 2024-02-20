@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include "Manipulator.h"
-#include "InverseKinematics.h"
 #include <cmath>
 
 using namespace planarMainpulator;
