@@ -8,10 +8,63 @@ The is a short report on the main design considerations of project PlanarManipul
 
 Project outline:
 
+    PlanarManipulator/
+    |
+    |--CmakeLists.txt
+    |
+    |--docs/
+    |   |--Instructions.txt             - Build instructions for PlanarManipulator project
+    |   |--Report.txt                   - PlanarManipulator project report 
+    |
+    |--include/
+    |   |--Link.h                       - Declares link properties
+    |   |--Joint.h                      - Declares joint types and properties
+    |   |--Transformation.h             - Implements 2D transformation matrix used in kinematic calculations
+    |   |--Manipulator.h                - Declares robot object and it's mambers
+    |   |--InverseKinematics.h          - Declares inverse kinematics analytical and numeric solver
+    |
+    |--src/
+    |   |--Joint.cpp                    - Defines joint types and properties
+    |   |--Manipulator.cpp              - Defines robot methods, components, forward kinematics, and intersection task
+    |   |--InverseKinematics.cpp        - Defines inverse kinematics analytical and numeric solver
+    |
+    |--tests/
+    |   |--ManipulatorTest.cpp          - Test for manipulator object methods and functionalities
+    |   |--IntersectionTest.cpp         - Test cases for intersection task
+    |   |--ForwardKinematicsTest.cpp    - Test cases for robot forward kinematics      
+    |   |--InverseKinematicsTest.cpp    - Test cases for inverse kinematics solutions 
+
 Main functionalities:
+
+    PlanarManipulator namespace includes a suite of tools designed for planar robotics 
+    manipulator kinematic calculations. The class Manipulator serves as foundational 
+    building block foir constructing and interacting with the robot. Users can include
+    Manipulator.h to instaniate a robot object. To add links and joints users can use 
+    std::shared_ptr for both Joint and Link types, this is to ensure memeory is handled 
+    effeciently.
+
+    In addition, Manipulator class provides forward kinematics calculations using 
+    getEndEffectorPosition() which calculates the end-effector position based on 
+    cureent joint angles. This implmentation of forward kinematics is extendable to 
+    planar robots of higher degree-of-freedom. This extendablility is handled by effecient 
+    calculation of frames using Transformation.h [R2]. Manipulator also can calculate if a 
+    given circle encompass the end-effector using isInsideCircle().
+
+    Inverse kinematics solution is implmented using the geomeetric analytical appraoch and 
+    users can access is by creating a InverseKinematics object and calling computeAnalyticalIK().
+    A numerical solver is also implmented using the Newton-Raphson method from [R1]. The method 
+    requires computation of the robot jacobian and is calculated from [R2]. 
+
+    Finally, test cases for each of these functionalities are implmeneted using Googletest. 
 
 Current limitations:
 
 Referneces: 
 
-Contact:
+    - Modern Robotics by Kevin M. Lynch and Frank C. Park [R1]
+    - Robot Modeling and Control by Mark W. Spong, Seth Hutchinson, and M. Vidyasagar [R2]
+
+Contact author:
+
+    - Omar Kolt: kolt@usc.edu
+
